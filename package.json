@@ -35,8 +35,21 @@
     "@angular/platform-server": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@angular/ssr": "^20.3.5",
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "@tailwindcss/postcss": "^4.1.15",
+    "@types/jquery": "^3.5.33",
+    "@types/slick-carousel": "^1.6.40",
+    "axios": "^1.12.2",
+    "dayjs": "^1.11.18",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "gsap": "^3.13.0",
+    "http-proxy-middleware": "^3.0.5",
+    "jquery": "^3.7.1",
+    "mongoose": "^8.19.2",
+    "ngx-slick-carousel": "^20.0.0",
     "rxjs": "~7.8.0",
+    "slick-carousel": "^1.8.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
@@ -50,6 +63,7 @@
     "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -59,7 +73,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.5.6",
     "prettier": "^3.6.2",
+    "tailwindcss": "^3.4.13",
     "typescript": "~5.9.2"
   }
 }

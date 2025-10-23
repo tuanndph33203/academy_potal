@@ -1,0 +1,47 @@
+<header
+  class="fixed left-0 right-0 top-0 z-50 transition-all text-white"
+  [ngClass]="{ 'bg-neutral-950/70 backdrop-blur-md': scrolled() }"
+>
+  <div class="mx-auto max-w-[1800px] px-4 py-3 grid grid-cols-2 lg:grid-cols-3 gap-3">
+    <div class="flex items-center">
+      <a class="flex items-center gap-2 font-semibold">
+        <img src="logo.png" class="h-12" alt="logo" />
+        <div>
+          <img src="name_site.png" class="h-3" alt="" />
+          <span class="text-xs">Thế giới phim</span>
+        </div>
+      </a>
+
+      <div class="relative ml-4 hidden md:block flex-1">
+        <input
+          placeholder="Tìm phim, diễn viên..."
+          class="w-full max-w-[300px] pl-2 pr-4 py-2 rounded-xl bg-white/35 border border-white/50 outline-none focus:bg-white/45 transition text-sm"
+        />
+      </div>
+    </div>
+
+    <nav class="hidden w-full lg:grid grid-cols-5 gap-6 place-content-center text-sm opacity-90">
+      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium">Phim Lẻ</a>
+      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium">Phim Bộ</a>
+      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium"
+        >Thể loại</a
+      >
+      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium"
+        >Quốc gia</a
+      >
+      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium"
+        >Review Phim</a
+      >
+    </nav>
+
+    <div class="ml-auto flex items-center justify-end gap-3">
+      <button class="btn-glass p-2 rounded-xl" aria-label="Thông báo"></button>
+      <button
+        class="btn-glass px-3 py-2 rounded-r-full rounded-l-full flex items-center gap-2 bg-white/90 hover:bg-white/100 text-stone-950"
+      >
+        <i class="fa-solid fa-user-tie"></i>
+        <span class="hidden sm:inline">Thành viên</span>
+      </button>
+    </div>
+  </div>
+</header>
