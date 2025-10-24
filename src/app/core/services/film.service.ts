@@ -17,6 +17,10 @@ export class FilmService {
     return this.http.get<IResponse<MovieItem[]>>(`${this.apiUrl}${API_ENDPOINTS.NEW_UPDATES_V3}`);
   }
 
+  getCollection(): Observable<IResponse<any[]>> {
+    return this.http.get<IResponse<any[]>>(`${this.apiUrl}${API_ENDPOINTS.COLLECTION}`);
+  }
+
   getTrending(): Observable<Movie[]> {
     return this.http.get<Movie[]>(`${this.apiUrl}${API_ENDPOINTS.TRENDING}`);
   }

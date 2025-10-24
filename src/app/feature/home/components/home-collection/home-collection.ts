@@ -1,0 +1,51 @@
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel';
+import { FilmService } from '../../../../core/services/film.service';
+
+@Component({
+  selector: 'app-home-collection',
+  imports: [CommonModule],
+  templateUrl: './home-collection.html',
+  styleUrl: './home-collection.scss',
+})
+export class HomeCollection {
+  private filmService = inject(FilmService);
+  @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
+
+  private platformId: Object = inject(PLATFORM_ID);
+  movies = signal<any[]>([]);
+
+  // slideConfig = {
+  //   slidesToShow: 5,
+  //   slidesToScroll: 1,
+  //   infinite: false,
+  //   arrows: true,
+  //   dots: false,
+  //   prevArrow: `
+  //   <button class="slick-prev">
+  //     <i class='fa-solid fa-chevron-left'></i>
+  //   </button>
+  // `,
+  //   nextArrow: `
+  //   <button class="slick-next">
+  //     <i class='fa-solid fa-chevron-right'></i>
+  //   </button>,`,
+  //   responsive: [
+  //     { breakpoint: 1280, settings: { slidesToShow: 4 } },
+  //     { breakpoint: 1024, settings: { slidesToShow: 3 } },
+  //     { breakpoint: 768, settings: { slidesToShow: 2 } },
+  //     { breakpoint: 480, settings: { slidesToShow: 1 } },
+  //   ],
+  // };
+  ngOnInit() {
+    this.filmService.getCollection().subscribe((res) => {
+      this.movies.set(res.items);
+    });
+  }
+  // ngAfterViewInit() {
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     setTimeout(() => this.slickModal?.initSlick(), 200);
+  //   }
+  // }
+}
