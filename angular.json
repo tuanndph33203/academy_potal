@@ -72,8 +72,7 @@
               "buildTarget": "academy:build:production"
             },
             "development": {
-              "buildTarget": "academy:build:development",
-              "proxyConfig": "src/proxy.config.json"
+              "buildTarget": "academy:build:development"
             }
           },
           "defaultConfiguration": "development"

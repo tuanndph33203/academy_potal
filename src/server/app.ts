@@ -3,6 +3,11 @@ import { join } from 'node:path';
 import cors from 'cors';
 import routerViews from './router/view.routes';
 import routerFilms from './router/film.routes';
+import routerCountry from './router/country.routes';
+import { connectDB } from './service/db.service';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const router = Router();
@@ -24,6 +29,7 @@ app.use(
 
 router.use('/views', routerViews);
 router.use('/danh-sach', routerFilms);
+router.use('/quoc-gia', routerCountry);
 app.use('/api', router);
 
 app.listen(PORT, () => {

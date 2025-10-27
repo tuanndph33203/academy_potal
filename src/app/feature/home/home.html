@@ -1,6 +1,9 @@
-<section>
-  <app-home-banner />
-</section>
-<section>
-  <app-home-care-category />
+<app-home-banner />
+<app-home-care-category />
+<section class="p-10">
+  <div class="px-5 bg-slate-900 rounded-xl space-y-5">
+    @for (country of visibleCountries(); track country.slug) {
+      <app-home-collection [country]="country" />
+    }
+  </div>
 </section>

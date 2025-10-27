@@ -4,10 +4,12 @@ import { MovieItem } from '../../../../core/models/movie.model';
 import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel';
 import { FilmService } from '../../../../core/services/film.service';
 import { gsap } from 'gsap';
+import { ImagePipe } from '../../../../core/pipe/image-pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-banner',
-  imports: [CommonModule, SlickCarouselModule],
+  imports: [CommonModule, SlickCarouselModule, ImagePipe],
   standalone: true,
   templateUrl: './home-banner.html',
   styleUrl: './home-banner.scss',
@@ -17,17 +19,10 @@ export class HomeBanner {
   data = signal<Array<MovieItem>>([]);
   movie = signal<MovieItem | undefined>(undefined);
   currentIndex = signal<number>(0);
+  tabs = ['Ngày', 'Tuần', 'Tháng', 'Tất cả'];
+  activeTab = signal('Ngày');
   @ViewChild('movieInfo') movieInfo?: ElementRef;
   @ViewChild('mainSlider') mainSlider!: SlickCarouselComponent;
-
-  tags = ['Chính Kịch', 'Chiếu Rạp', 'Tình Cảm', 'Gia Đình', 'Hài', 'Lãng Mạn'];
-  previews = [
-    'https://image.tmdb.org/t/p/w300/6oZE1l6Bq9VHtVxo1cWmvMRGsiE.jpg',
-    'https://image.tmdb.org/t/p/w300/l9wQbSleqU9jwELPDQJrNqxabvQ.jpg',
-    'https://image.tmdb.org/t/p/w300/3VQj6m0NnSboN3Wf9eKJeNEgnbW.jpg',
-    'https://image.tmdb.org/t/p/w300/2k9GkYzN7AEBR2zQfM9vDOMkMt2.jpg',
-    'https://image.tmdb.org/t/p/w300/jZIYaISP3GBSrVOPfrp98AMa8Ng.jpg',
-  ];
 
   slideConfig = {
     slidesToShow: 1,
@@ -42,6 +37,8 @@ export class HomeBanner {
   ngOnInit() {
     this.filmService.getNewUpdates().subscribe((res) => {
       this.data.set(res.items);
+      console.log(res.items);
+
       this.movie.set(res.items[0]);
     });
   }

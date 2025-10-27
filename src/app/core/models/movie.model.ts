@@ -16,21 +16,47 @@ export interface Episode {
   url: string;
   sub?: string;
 }
+/** Mô tả thông tin IMDB */
+export interface ImdbInfo {
+  id: string | null; // mã IMDB (nếu có)
+}
+
+/** Mô tả thời gian chỉnh sửa gần nhất */
+export interface ModifiedInfo {
+  time: string; // ISO date string
+}
+
+/** Mô tả danh mục (category) hoặc quốc gia */
+export interface NamedEntity {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+/** Định nghĩa cấu trúc chính của một bộ phim */
 export interface MovieItem {
   _id: string;
   name: string;
   slug: string;
   origin_name: string;
+  type: string; // ví dụ: "hoathinh"
   poster_url: string;
   thumb_url: string;
-  year: number;
+  sub_docquyen: boolean;
+  time: string; // ví dụ: "25 phút/tập"
+  episode_current: string; // ví dụ: "Tập 36"
+  quality: string; // "FHD", "HD", ...
+  lang: string; // "Vietsub", "Thuyết minh", ...
+  year: number; // năm phát hành
   tmdb: TmdbInfo;
   imdb: ImdbInfo;
   modified: ModifiedInfo;
+  category: NamedEntity[];
+  country: NamedEntity[];
 }
 
 export interface TmdbInfo {
-  type: 'movie' | 'tv'; // hoặc string nếu bạn có thêm loại khác
+  type: 'movie' | 'tv';
   id: string;
   season?: number;
   vote_average: number;
