@@ -1,0 +1,31 @@
+<ngx-slick-carousel #slickModal="slick-carousel" class="slider" [config]="slideConfigOrigin()">
+  @for (item of data(); track $index) {
+    <div ngxSlickItem class="p-2">
+      <div class="rounded-tl-xl rounded-tr-xl overflow-hidden shadow-md cursor-pointer">
+        <div class="relative aspect-[2/3] overflow-hidden">
+          <img
+            [src]="item.poster_url | image: 'short'"
+            class="w-full h-full object-cover"
+            alt="banner"
+          />
+          <div class="absolute top-0 sm:top-2 left-0 sm:left-2 flex gap-1 text-[6px] font-semibold">
+            <span
+              class="bg-green-600/80 px-[2px] sm:px-2 py-0 sm:py-0.5 rounded text-white border border-white/10 whitespace-nowrap"
+              >{{ item.lang }}</span
+            >
+          </div>
+          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full text-center">
+            <span
+              class="text-sm bg-black/70 px-2 py-0.5 rounded text-white border border-white/10 whitespace-nowrap"
+              >{{ item.episode_current }}</span
+            >
+          </div>
+        </div>
+        <div class="p-3">
+          <div class="text-sm font-semibold truncate">{{ item.title }}</div>
+          <div class="text-xs text-white/50 truncate">{{ item.subTitle }}</div>
+        </div>
+      </div>
+    </div>
+  }
+</ngx-slick-carousel>

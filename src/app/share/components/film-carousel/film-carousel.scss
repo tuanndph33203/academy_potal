@@ -1,0 +1,68 @@
+:host {
+  width: 100%;
+  overflow: hidden;
+}
+:host ::ng-deep {
+  .slick-prev:before,
+  .slick-next:before {
+    display: none;
+    content: '' !important;
+  }
+  .slick-prev,
+  .slick-next {
+    background: rgba(255, 152, 0, 0.75);
+    color: #fff;
+    border-radius: 3px;
+    padding: 8px 5px;
+    position: absolute;
+    top: 38%;
+    background-size: 300% 100%;
+    background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
+    box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
+    transition: 0.7s;
+    width: 30px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    z-index: 99;
+    color: rgb(236, 236, 236);
+    font-size: 30px;
+    font-weight: 700;
+  }
+  @media (max-width: 1536px) {
+    .slick-prev,
+    .slick-next {
+      width: 28px;
+      height: 36px;
+      font-size: 26px;
+    }
+  }
+
+  @media (max-width: 1280px) {
+    .slick-prev,
+    .slick-next {
+      width: 24px;
+      height: 32px;
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .slick-prev,
+    .slick-next {
+      width: 20px;
+      height: 28px;
+      font-size: 20px;
+      top: 45%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .slick-prev,
+    .slick-next {
+      display: none !important;
+    }
+  }
+}
