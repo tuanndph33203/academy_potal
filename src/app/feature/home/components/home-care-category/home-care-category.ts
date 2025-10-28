@@ -11,7 +11,7 @@ export class HomeCareCategory {
     { label: 'Marvel' },
     { label: '4K' },
     { label: 'Sitcom' },
-    { label: 'Lồng Tiếng Cực Mạnh' },
+    { label: 'Anime' },
     { label: 'Xuyên Không' },
     { label: 'Cổ Trang' },
     { label: '+4 chủ đề' },

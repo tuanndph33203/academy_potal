@@ -5,17 +5,18 @@ import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel'
 import { FilmService } from '../../../../core/services/film.service';
 import { gsap } from 'gsap';
 import { ImagePipe } from '../../../../core/pipe/image-pipe';
-import { RouterLink } from '@angular/router';
+import { LucideAngularModule, Play } from 'lucide-angular';
 
 @Component({
   selector: 'app-home-banner',
-  imports: [CommonModule, SlickCarouselModule, ImagePipe],
+  imports: [CommonModule, SlickCarouselModule, ImagePipe, LucideAngularModule],
   standalone: true,
   templateUrl: './home-banner.html',
   styleUrl: './home-banner.scss',
 })
 export class HomeBanner {
   private filmService = inject(FilmService);
+  readonly icons = { Play };
   data = signal<Array<MovieItem>>([]);
   movie = signal<MovieItem | undefined>(undefined);
   currentIndex = signal<number>(0);
@@ -37,8 +38,6 @@ export class HomeBanner {
   ngOnInit() {
     this.filmService.getNewUpdates().subscribe((res) => {
       this.data.set(res.items);
-      console.log(res.items);
-
       this.movie.set(res.items[0]);
     });
   }
