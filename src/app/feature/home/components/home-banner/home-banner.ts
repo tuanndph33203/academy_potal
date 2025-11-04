@@ -15,10 +15,18 @@ import { gsap } from 'gsap';
 import { ImagePipe } from '../../../../core/pipe/image-pipe';
 import { LucideAngularModule, Play } from 'lucide-angular';
 import { TimeToHourPipe } from '../../../../core/pipe/time-to-hour-pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-banner',
-  imports: [CommonModule, SlickCarouselModule, ImagePipe, TimeToHourPipe, LucideAngularModule],
+  imports: [
+    CommonModule,
+    SlickCarouselModule,
+    ImagePipe,
+    TimeToHourPipe,
+    LucideAngularModule,
+    RouterLink,
+  ],
   standalone: true,
   templateUrl: './home-banner.html',
   styleUrl: './home-banner.scss',

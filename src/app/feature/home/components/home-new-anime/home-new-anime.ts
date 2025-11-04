@@ -16,10 +16,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ImagePipe } from '../../../../core/pipe/image-pipe';
 import { MovieItem } from '../../../../core/models/movie.model';
 import { gsap } from 'gsap';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-new-anime',
-  imports: [CommonModule, LucideAngularModule, SlickCarouselModule, ImagePipe],
+  imports: [CommonModule, LucideAngularModule, SlickCarouselModule, ImagePipe, RouterLink],
   templateUrl: './home-new-anime.html',
   styleUrl: './home-new-anime.scss',
 })

@@ -72,11 +72,12 @@
                 }
               </div>
               <div class="mt-2 xl:mt-6 hidden lg:flex items-center gap-3">
-                <button
+                <a
                   class="w-20 h-20 rounded-full bg-white text-neutral-900 font-semibold shadow-soft flex items-center justify-center gap-2 text-4xl bg-gradient-to-r from-yellow-500"
+                  [routerLink]="`watch/${movie()?.slug}`"
                 >
                   <lucide-angular [img]="icons.Play" class="my-icon" size="30"></lucide-angular>
-                </button>
+                </a>
                 <div class="grid grid-cols-2 *:border *:border-slate-950/20">
                   <button
                     class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-r-none"

@@ -5,11 +5,13 @@ import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel'
 import { ImagePipe } from '../../../core/pipe/image-pipe';
 import { Skeleton } from '../skeleton/skeleton';
 import { TimeToHourPipe } from '../../../core/pipe/time-to-hour-pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-film-carousel',
   standalone: true,
-  imports: [CommonModule, SlickCarouselModule, ImagePipe, TimeToHourPipe, Skeleton],
+  imports: [CommonModule, SlickCarouselModule, ImagePipe, TimeToHourPipe, Skeleton, RouterLink],
+
   templateUrl: './film-carousel.html',
   styleUrl: './film-carousel.scss',
 })
