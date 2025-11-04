@@ -1,9 +1,13 @@
-<app-home-banner />
-<app-home-care-category />
+<section class="my-10 py-5 lg:py-0"><app-home-banner /></section>
+<section class="my-10 py-5 lg:py-0"><app-home-care-category /></section>
 <section class="my-10 py-5 lg:py-0 bg-slate-900 rounded-xl">
   <div class="p-2 sm:p-5">
     @for (country of visibleCountries(); track country.slug) {
-      <app-home-collection [country]="country" />
+      <div class="pb-5 md:pb-7">
+        <app-home-collection [country]="country" />
+      </div>
     }
   </div>
 </section>
+<section class="my-10 py-5 lg:py-0"><app-home-new-movie /></section>
+<section class="my-10 py-5 lg:py-0"><app-home-new-anime /></section>

@@ -3,11 +3,13 @@ import { Slick } from '../../../core/models/common.model';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel';
 import { ImagePipe } from '../../../core/pipe/image-pipe';
+import { Skeleton } from '../skeleton/skeleton';
+import { TimeToHourPipe } from '../../../core/pipe/time-to-hour-pipe';
 
 @Component({
   selector: 'app-film-carousel',
   standalone: true,
-  imports: [CommonModule, SlickCarouselModule, ImagePipe],
+  imports: [CommonModule, SlickCarouselModule, ImagePipe, TimeToHourPipe, Skeleton],
   templateUrl: './film-carousel.html',
   styleUrl: './film-carousel.scss',
 })
@@ -15,9 +17,10 @@ export class FilmCarousel implements OnInit {
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
   data = input.required<any[]>();
   slideConfig = input<Slick.Config | undefined>(undefined);
+  styleClass = input<string | undefined>(undefined);
 
   slideConfigOrigin = signal<Slick.Config>({
-    slidesToShow: 8,
+    slidesToShow: 7,
     slidesToScroll: 1,
     arrows: true,
     dots: false,
@@ -47,6 +50,11 @@ export class FilmCarousel implements OnInit {
       { breakpoint: 640, settings: { slidesToShow: 3 } },
     ],
   });
+
+  skeletons = Array.from({ length: 10 }, (_, i) => i);
+
+  private platformId: Object = inject(PLATFORM_ID);
+  isBrowser = signal(isPlatformBrowser(this.platformId));
 
   ngOnInit(): void {
     const inputConfig = this.slideConfig();

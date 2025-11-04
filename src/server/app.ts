@@ -6,6 +6,7 @@ import routerFilms from './router/film.routes';
 import routerCountry from './router/country.routes';
 import { connectDB } from './service/db.service';
 import dotenv from 'dotenv';
+import routerFilm from './router/films.routes';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(
 
 router.use('/views', routerViews);
 router.use('/danh-sach', routerFilms);
+router.use('/phim', routerFilm);
 router.use('/quoc-gia', routerCountry);
 app.use('/api', router);
 

@@ -70,3 +70,19 @@ export interface ImdbInfo {
 export interface ModifiedInfo {
   time: string; // ISO string
 }
+export interface Episode {
+  index: number;
+  title: string;
+}
+export interface StreamServer {
+  label: string;
+  kind: 'SUB' | 'RAW';
+  sources: { name: string; url: string }[];
+}
+export interface AnimeItem {
+  id: string;
+  title: string;
+  thumb: string;
+  views: number;
+  rank: number;
+}

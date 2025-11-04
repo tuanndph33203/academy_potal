@@ -31,7 +31,7 @@ export class FilmController {
       items: [],
     });
   }
-  static async getFilm(req: Request, res: Response) {
+  static async getFilms(req: Request, res: Response) {
     const { type } = req.params;
     const query = req.query;
     if (!type) {
@@ -39,6 +39,27 @@ export class FilmController {
     }
     const url = `v1/api/danh-sach/${type}`;
     const result = await FetchService.getJson(url, query);
+    if (result.success) {
+      return res.json({
+        status: true,
+        items: result.data.items || result.data,
+      });
+    }
+    return res.status(502).json({
+      status: false,
+      message: 'Không gọi được country (fetch)',
+      items: [],
+    });
+  }
+  static async getFilm(req: Request, res: Response) {
+    console.log(req.params); /// ParamsAsMap { params: { slug: 'ngoi-truong-xac-song' } }
+
+    const { slug } = req.params;
+    if (!slug) {
+      return res.status(400).json({ success: false, error: 'Thiếu tham số slug' });
+    }
+    const url = `phim/${slug}`;
+    const result = await FetchService.getJson(url);
     if (result.success) {
       return res.json({
         status: true,

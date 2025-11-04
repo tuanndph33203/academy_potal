@@ -1,38 +1,41 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
-  input,
+  OnInit,
   PLATFORM_ID,
   signal,
   ViewChild,
 } from '@angular/core';
-import { MovieItem } from '../../../../core/models/movie.model';
-import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel';
+import { ArrowRight, LucideAngularModule, Play } from 'lucide-angular';
 import { FilmService } from '../../../../core/services/film.service';
-import { gsap } from 'gsap';
+import { TypeFilm } from '../../../../core/constants/film.constant';
+import { SlickCarouselComponent, SlickCarouselModule } from 'ngx-slick-carousel';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ImagePipe } from '../../../../core/pipe/image-pipe';
-import { LucideAngularModule, Play } from 'lucide-angular';
-import { TimeToHourPipe } from '../../../../core/pipe/time-to-hour-pipe';
+import { MovieItem } from '../../../../core/models/movie.model';
+import { gsap } from 'gsap';
 
 @Component({
-  selector: 'app-home-banner',
-  imports: [CommonModule, SlickCarouselModule, ImagePipe, TimeToHourPipe, LucideAngularModule],
-  standalone: true,
-  templateUrl: './home-banner.html',
-  styleUrl: './home-banner.scss',
+  selector: 'app-home-new-anime',
+  imports: [CommonModule, LucideAngularModule, SlickCarouselModule, ImagePipe],
+  templateUrl: './home-new-anime.html',
+  styleUrl: './home-new-anime.scss',
 })
-export class HomeBanner {
+export class HomeNewAnime implements OnInit, AfterViewInit {
   @ViewChild('movieInfo') movieInfo?: ElementRef;
   @ViewChild('mainSlider') mainSlider!: SlickCarouselComponent;
-  readonly icons = { Play };
-  data = signal<Array<MovieItem>>([]);
-  movie = signal<MovieItem | undefined>(undefined);
   currentIndex = signal<number>(0);
-  tabs = ['Ngày', 'Tuần', 'Tháng', 'Tất cả'];
-  activeTab = signal('Ngày');
-
+  icons = {
+    ArrowRight,
+    Play,
+  };
+  movies = signal<MovieItem[]>([]);
+  movie = signal<MovieItem | undefined>(undefined);
+  private filmService = inject(FilmService);
+  private platformId = inject(PLATFORM_ID);
+  isBrowser = signal(isPlatformBrowser(this.platformId));
   slideConfig = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -44,14 +47,11 @@ export class HomeBanner {
     swipeToSlide: true,
   };
 
-  private platformId = inject(PLATFORM_ID);
-  isBrowser = signal(isPlatformBrowser(this.platformId));
-  private filmService = inject(FilmService);
-
   ngOnInit() {
-    this.filmService.getNewUpdates().subscribe((res) => {
-      this.data.set(res.items);
-      this.movie.set(res.items[0]);
+    this.filmService.getFilms(TypeFilm.HoatHinh).subscribe((res) => {
+      this.movies.set(res.items.data.items);
+      this.movie.set(res.items.data.items[0]);
+      console.log(this.movie());
     });
   }
 
@@ -63,7 +63,7 @@ export class HomeBanner {
 
   onSlideChange(event: any) {
     this.currentIndex.set(event.nextSlide);
-    const movies = this.data();
+    const movies = this.movies();
     this.movie.set(movies[this.currentIndex()]);
     this.animateMovieInfo();
   }

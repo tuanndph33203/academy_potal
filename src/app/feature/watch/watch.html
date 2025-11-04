@@ -1,0 +1,94 @@
+<h1 class="text-xs">
+  Home > {{ getEpisodeLabel(movie()?.movie.type) }} > {{ movie()?.movie.name }}
+</h1>
+<div class="grid grid-cols-[5fr_2fr] gap-10 py-3">
+  <div>
+    <div class="aspect-video bg-black relative w-full rounded-sm">
+      <iframe class="w-full h-full" [src]="safeUrl()" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="grid grid-cols-[2fr_5fr]">
+      <div class="bg-slate-700 p-4">
+        <h5 class="text-sm font-semibold mb-2">Bạn đang xem {{ currentEp().name }}.</h5>
+        <p class="text-xs">Nếu máy chủ hiện tại không hoạt động vui lòng thử các máy chủ khác</p>
+      </div>
+      <div class="bg-slate-900 grid grid-cols-[100px_auto] gap-3 place-content-start p-4">
+        <div class="text-sm text-white/70">Máy chủ</div>
+        <div>
+          <button
+            class="h-fit text-xs px-3 py-2 rounded border border-slate-700 border-white/10 bg-white/5 text-emerald-300 cursor-default"
+          >
+            Hà Nội
+          </button>
+        </div>
+        <div class="text-sm text-white/70">Phụ đề</div>
+        <div class="flex flex-wrap gap-2">
+          @for (server of movie()?.episodes; track server.server_name) {
+            <button
+              (click)="setServer(server)"
+              class="h-fit text-xs px-3 py-2 rounded border border-slate-700 transition duration-200 cursor-pointer"
+              [ngClass]="{
+                'bg-emerald-500/20 border-emerald-400/40 text-emerald-200 cursor-not-allowed pointer-events-none':
+                  server.server_name === currentServer()?.server_name,
+                'bg-white/5 border-white/10 hover:bg-emerald-500/20 hover:border-emerald-400/40':
+                  server.server_name !== currentServer()?.server_name,
+              }"
+            >
+              {{ getServerLabel(server.server_name) }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 p-4">
+      <h3 class="text-sm mb-3 font-semibold">Danh sách tập</h3>
+
+      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2">
+        @for (ep of currentServer().server_data; track ep.name) {
+          <button
+            (click)="setEposide(ep)"
+            class="text-xs py-2 rounded border border-slate-700 transition duration-200 cursor-pointer"
+            [ngClass]="{
+              'bg-emerald-500/20 border-emerald-400/40 text-emerald-200 cursor-not-allowed pointer-events-none':
+                ep.link_embed === currentEp().link_embed,
+              'bg-white/5 border-white/10 hover:bg-emerald-500/20 hover:border-emerald-400/40':
+                ep.link_embed !== currentEp().link_embed,
+            }"
+          >
+            {{ ep.name }}
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+  <aside class="bg-[#0f1012] border border-white/10 rounded-lg p-4 space-y-4 h-fit">
+    <div class="flex items-center justify-between">
+      <h3 class="font-semibold">Top Anime</h3>
+      <div class="flex gap-1 text-xs">
+        <button class="tab" [class.tab-active]="tab() == 'today'" (click)="tab.set('today')">
+          Today
+        </button>
+        <button class="tab" [class.tab-active]="tab() == 'week'" (click)="tab.set('week')">
+          Week
+        </button>
+        <button class="tab" [class.tab-active]="tab() == 'month'" (click)="tab.set('month')">
+          Month
+        </button>
+      </div>
+    </div>
+
+    <ngx-slick-carousel class="slick-vertical" [config]="slideConfig">
+      <div ngxSlickItem *ngFor="let a of topList()" class="py-1">
+        <div class="flex gap-2 items-center hover:bg-white/5 rounded p-1">
+          <div class="w-9 h-9 shrink-0 rounded overflow-hidden">
+            <img [src]="a.thumb" class="w-full h-full object-cover" />
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs truncate">{{ a.title }}</div>
+            <div class="text-[10px] text-white/50">👁️ {{ a.views | number }}</div>
+          </div>
+          <div class="ml-auto text-xs text-white/60 font-semibold">#{{ a.rank }}</div>
+        </div>
+      </div>
+    </ngx-slick-carousel>
+  </aside>
+</div>

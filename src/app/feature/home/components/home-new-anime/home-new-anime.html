@@ -1,0 +1,137 @@
+<div class="text-white space-y-4">
+  <div class="flex justify-between items-center relative">
+    <h2
+      class="lg:mb-5 text-sm sm:text-lg lg:text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient"
+    >
+      Kho Phim Anime Mới Nhất
+    </h2>
+    <a
+      href="#"
+      class="text-xs sm:text-sm lg:text-md text-white/70 hover:text-white gap-1 group flex items-center"
+    >
+      <span class="whitespace-nowrap"> Xem hêm</span>
+      <lucide-angular
+        class="transform group-hover:translate-x-[2px] duration-300 border-"
+        [img]="icons.ArrowRight"
+        [size]="16"
+      ></lucide-angular>
+    </a>
+  </div>
+
+  <div class="relative rounded-md overflow-hidden">
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_2fr] gap-2">
+      <div class="relative z-50 w-full order-2 xl:order-1">
+        @if (movie()) {
+          <div
+            #movieInfo
+            class="w-full h-full px-4 lg:px-12 pb-4 lg:pb-10 text-white/80 flex items-center"
+          >
+            <div class="w-full">
+              <div>
+                <h1
+                  class="w-fit p-1 rounded-sm line-clamp-2 sm:line-clamp-4 pointer-events-none cursor-not-allowed text-white text-base md:text-md lg:text-xl 2xl:text-2xl font-extrabold leading-tight drop-shadow bg-black/40 lg:bg-transparent shadow-md lg:shadow-none"
+                >
+                  {{ movie()?.name }}
+                </h1>
+              </div>
+
+              <div
+                class="mt-1 sm:mt-4 flex flex-wrap gap-2 *:border *:px-2 *:border-slate-950/20 *:rounded-sm font-medium"
+              >
+                @if (movie()?.tmdb?.vote_average !== 0) {
+                  <span
+                    class="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 sm:py-1 text-xs font-semibold text-white/80 backdrop-blur-sm shadow-sm hover:bg-white/20 transition"
+                  >
+                    IMDb
+                    <strong
+                      class="text-transparent bg-clip-text bg-[linear-gradient(to_right,theme(colors.amber.200),theme(colors.yellow.400),theme(colors.orange.500))] font-extrabold"
+                    >
+                      {{
+                        movie()?.tmdb?.vote_average !== 10
+                          ? movie()?.tmdb?.vote_average?.toFixed(1)
+                          : movie()?.tmdb?.vote_average
+                      }}
+                    </strong>
+                  </span>
+                }
+                <span class="badge inline-flex items-center text-xs xl:text-base">{{
+                  movie()?.year
+                }}</span>
+                <div class="inline-flex items-center bg-slate-950">
+                  <span
+                    class="text-xs xl:text-base badge bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient uppercase"
+                    >{{ movie()?.quality }}</span
+                  >
+                </div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-2 bg text-[10px] sm:text-xs md:text-base">
+                @for (category of movie()?.category; track category.name) {
+                  <a class="px-2" href="#">
+                    <span class="badge">{{ category.name }}</span></a
+                  >
+                }
+              </div>
+              <div class="mt-2 xl:mt-6 hidden lg:flex items-center gap-3">
+                <button
+                  class="w-20 h-20 rounded-full bg-white text-neutral-900 font-semibold shadow-soft flex items-center justify-center gap-2 text-4xl bg-gradient-to-r from-yellow-500"
+                >
+                  <lucide-angular [img]="icons.Play" class="my-icon" size="30"></lucide-angular>
+                </button>
+                <div class="grid grid-cols-2 *:border *:border-slate-950/20">
+                  <button
+                    class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-r-none"
+                  >
+                    <i class="fa-solid fa-heart"></i> Yêu thích
+                  </button>
+                  <button
+                    class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-l-none"
+                  >
+                    <i class="fa-solid fa-share"></i>
+                    Chia sẻ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="overflow-hidden h-fit order-1 xl:order-2">
+        @if (isBrowser() && movies().length > 0) {
+          <a>
+            <ngx-slick-carousel
+              #mainSlider="slick-carousel"
+              class="carousel"
+              [config]="slideConfig"
+              (beforeChange)="onSlideChange($event)"
+            >
+              @for (m of movies(); track m.name) {
+                <div ngxSlickItem>
+                  <div
+                    class="relative cursor-pointer z-10 w-full aspect-[21/9] grid place-items-end overflow-hidden"
+                  >
+                    <img
+                      [src]="m?.thumb_url | image: 'short'"
+                      class="absolute inset-0 w-full h-full object-cover object-center rounded-tr-md rounded-br-md"
+                      alt="banner"
+                    />
+                  </div>
+                </div>
+              } @empty {
+                <div
+                  class="relative cursor-pointer z-10 w-full aspect-[16/9] grid place-items-end overflow-hidden"
+                ></div>
+              }
+            </ngx-slick-carousel>
+          </a>
+        }
+      </div>
+    </div>
+    <div
+      class="pointer-events-none absolute top-0 right-0 w-full inset-0 transition-all duration-500"
+    >
+      <div
+        class="h-full bg-[radial-gradient(300%_77%_at_50%_4%,transparent_30%,rgba(31,41,55,1)_80%)] xl:bg-[radial-gradient(77%_300%_at_95%_40%,transparent_30%,rgba(31,41,55,1)_80%)]"
+      ></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="text-white space-y-4">
+  <div class="flex justify-between items-center">
+    <h2
+      class="lg:mb-5 text-sm sm:text-lg lg:text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient"
+    >
+      Phim Chiếu Rạp Mới Đang Hot
+    </h2>
+    <a
+      href="#"
+      class="text-xs sm:text-sm lg:text-md text-white/70 hover:text-white gap-1 group flex items-center"
+    >
+      <span class="whitespace-nowrap"> Xem hêm</span>
+      <lucide-angular
+        class="transform group-hover:translate-x-[2px] duration-300 border-"
+        [img]="icons.ArrowRight"
+        [size]="16"
+      ></lucide-angular>
+    </a>
+  </div>
+  <div class="overflow-hidden h-fit">
+    <app-film-carousel
+      [data]="movies()"
+      [slideConfig]="slideConfig()"
+      [styleClass]="'transition-all hover:border-4 border-red box-border duration-300 ease-in-out'"
+    />
+  </div>
+</div>

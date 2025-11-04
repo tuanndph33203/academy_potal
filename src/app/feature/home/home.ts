@@ -7,10 +7,12 @@ import { HomeCareCategory } from './components/home-care-category/home-care-cate
 import { MovieItem } from '../../core/models/movie.model';
 import { HomeCollection } from './components/home-collection/home-collection';
 import { CountryService } from '../../core/services/country.service';
+import { HomeNewMovie } from './components/home-new-movie/home-new-movie';
+import { HomeNewAnime } from './components/home-new-anime/home-new-anime';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, HomeBanner, HomeCareCategory, HomeCollection],
+  imports: [CommonModule, HomeBanner, HomeCareCategory, HomeCollection, HomeNewMovie, HomeNewAnime],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

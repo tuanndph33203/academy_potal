@@ -1,0 +1,14 @@
+@if (visible()) {
+  <div
+    class="app-skeleton"
+    [class.animate-pulse]="animation() === 'pulse'"
+    [class.wave]="animation() === 'wave'"
+    [class.rounded-full]="shape() === 'circle'"
+    [ngStyle]="{
+      width: pdWidth(),
+      height: pdHeight(),
+      borderRadius: shape() === 'circle' ? '50%' : borderRadius(),
+    }"
+    [ngClass]="styleClass()"
+  ></div>
+}

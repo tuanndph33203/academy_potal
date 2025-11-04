@@ -1,106 +1,108 @@
-<section
-  class="relative w-full overflow-hidden grid grid-cols-1 xl:grid-cols-[calc(100%-350px)_330px] gap-8"
->
+<section class="relative w-full grid grid-cols-1 xl:grid-cols-[calc(100%-382px)_350px] gap-8">
   <div class="w-full max-w-[1440px] relative">
-    <a>
-      <ngx-slick-carousel
-        #mainSlider="slick-carousel"
-        class="carousel"
-        [config]="slideConfig"
-        (beforeChange)="onSlideChange($event)"
-      >
-        @for (m of data(); track m.name) {
-          <div ngxSlickItem>
+    @if (isBrowser() && data().length > 0) {
+      <a>
+        <ngx-slick-carousel
+          #mainSlider="slick-carousel"
+          class="carousel"
+          [config]="slideConfig"
+          (beforeChange)="onSlideChange($event)"
+        >
+          @for (m of data(); track m.name) {
+            <div ngxSlickItem>
+              <div
+                class="relative cursor-pointer z-10 w-full aspect-[16/9] grid place-items-end overflow-hidden"
+              >
+                <img
+                  [src]="m?.thumb_url | image"
+                  class="absolute inset-0 w-full h-full object-cover object-top rounded-md"
+                  alt="banner"
+                />
+              </div>
+            </div>
+          } @empty {
             <div
               class="relative cursor-pointer z-10 w-full aspect-[16/9] grid place-items-end overflow-hidden"
-            >
-              <img
-                [src]="m?.thumb_url | image"
-                class="absolute inset-0 w-full h-full object-cover object-top rounded-md"
-                alt="banner"
-              />
-            </div>
-          </div>
-        } @empty {
+            ></div>
+          }
+        </ngx-slick-carousel>
+        @if (movie()) {
           <div
-            class="relative cursor-pointer z-10 w-full aspect-[16/9] grid place-items-end overflow-hidden"
-          ></div>
-        }
-      </ngx-slick-carousel>
-      @if (movie()) {
-        <div
-          #movieInfo
-          class="absolute z-20 bottom-0 lg:bottom-[25%] left-0 w-fit h-fit px-4 lg:px-12 pb-4 lg:pb-10 text-white/80 flex items-end"
-        >
-          <div class="max-w-2xl">
-            <div>
-              <h1
-                class="w-fit p-1 rounded-sm line-clamp-2 sm:line-clamp-4 pointer-events-none cursor-not-allowed text-white text-xs s:text-md md:text-lg lg:text-xl:text-2xl 2xl:text-4xl font-extrabold leading-tight drop-shadow bg-black/40 lg:bg-transparent shadow-md lg:shadow-none"
-              >
-                {{ movie()?.name }}
-              </h1>
-            </div>
-            <div
-              class="mt-1 sm:mt-4 flex flex-wrap gap-2 *:border *:px-2 *:border-slate-950/20 *:rounded-sm font-medium"
-            >
-              <span
-                class="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 sm:py-1 text-xs font-semibold text-white/80 backdrop-blur-sm shadow-sm hover:bg-white/20 transition"
-              >
-                IMDb
-                <strong
-                  class="text-transparent bg-clip-text bg-[linear-gradient(to_right,theme(colors.amber.200),theme(colors.yellow.400),theme(colors.orange.500))] font-extrabold"
+            #movieInfo
+            class="absolute z-20 bottom-0 lg:bottom-[25%] left-0 w-fit h-fit px-4 lg:px-12 pb-4 lg:pb-10 text-white/80 flex items-end"
+          >
+            <div class="max-w-2xl">
+              <div>
+                <h1
+                  class="w-fit p-1 rounded-sm line-clamp-2 sm:line-clamp-4 pointer-events-none cursor-not-allowed text-white text-xs s:text-md md:text-lg lg:text-xl:text-2xl 2xl:text-4xl font-extrabold leading-tight drop-shadow bg-black/40 lg:bg-transparent shadow-md lg:shadow-none"
                 >
-                  {{
-                    movie()?.tmdb?.vote_average !== 0 && movie()?.tmdb?.vote_average !== 10
-                      ? movie()?.tmdb?.vote_average?.toFixed(1)
-                      : movie()?.tmdb?.vote_average
-                  }}
-                </strong>
-              </span>
-              <span class="badge inline-flex items-center text-xs xl:text-base">{{
-                movie()?.year
-              }}</span>
-              <span class="badge inline-flex items-center text-xs xl:text-base">{{
-                movie()?.time
-              }}</span>
-              <div class="inline-flex items-center bg-slate-950">
+                  {{ movie()?.name }}
+                </h1>
+              </div>
+              <div
+                class="mt-1 sm:mt-4 flex flex-wrap gap-2 *:border *:px-2 *:border-slate-950/20 *:rounded-sm font-medium"
+              >
                 <span
-                  class="text-xs xl:text-base badge bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient uppercase"
-                  >{{ movie()?.quality }}</span
+                  class="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 sm:py-1 text-xs font-semibold text-white/80 backdrop-blur-sm shadow-sm hover:bg-white/20 transition"
                 >
+                  IMDb
+                  <strong
+                    class="text-transparent bg-clip-text bg-[linear-gradient(to_right,theme(colors.amber.200),theme(colors.yellow.400),theme(colors.orange.500))] font-extrabold"
+                  >
+                    {{
+                      movie()?.tmdb?.vote_average !== 0 && movie()?.tmdb?.vote_average !== 10
+                        ? movie()?.tmdb?.vote_average?.toFixed(1)
+                        : movie()?.tmdb?.vote_average
+                    }}
+                  </strong>
+                </span>
+                <span class="badge inline-flex items-center text-xs xl:text-base">{{
+                  movie()?.year
+                }}</span>
+                <span class="badge inline-flex items-center text-xs xl:text-base">{{
+                  movie()?.episode_current == 'Full'
+                    ? (movie()?.time ?? '' | timeToHour)
+                    : movie()?.episode_current
+                }}</span>
+                <div class="inline-flex items-center bg-slate-950">
+                  <span
+                    class="text-xs xl:text-base badge bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient uppercase"
+                    >{{ movie()?.quality }}</span
+                  >
+                </div>
               </div>
-            </div>
 
-            <div class="mt-6 hidden lg:flex items-center gap-3">
-              <button
-                class="w-20 h-20 rounded-full bg-white text-neutral-900 font-semibold shadow-soft flex items-center justify-center gap-2 text-4xl bg-gradient-to-r from-yellow-500"
-              >
-                <lucide-angular [img]="icons.Play" class="my-icon"></lucide-angular>
-              </button>
-              <div class="grid grid-cols-2 *:border *:border-slate-950/20">
+              <div class="mt-6 hidden lg:flex items-center gap-3">
                 <button
-                  class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-r-none"
+                  class="w-20 h-20 rounded-full bg-white text-neutral-900 font-semibold shadow-soft flex items-center justify-center gap-2 text-4xl bg-gradient-to-r from-yellow-500"
                 >
-                  <i class="fa-solid fa-heart"></i> Yêu thích
+                  <lucide-angular [img]="icons.Play" class="my-icon" size="30"></lucide-angular>
                 </button>
-                <button
-                  class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-l-none"
-                >
-                  <i class="fa-solid fa-share"></i>
-                  Chia sẻ
-                </button>
+                <div class="grid grid-cols-2 *:border *:border-slate-950/20">
+                  <button
+                    class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-r-none"
+                  >
+                    <i class="fa-solid fa-heart"></i> Yêu thích
+                  </button>
+                  <button
+                    class="btn-glass px-4 py-3 rounded-full flex items-center gap-2 rounded-l-none"
+                  >
+                    <i class="fa-solid fa-share"></i>
+                    Chia sẻ
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div class="mt-6 hidden lg:flex flex-wrap gap-2">
-              @for (category of movie()?.category; track category.name) {
-                <span class="badge">{{ category.name }}</span>
-              }
+              <div class="mt-6 hidden lg:flex flex-wrap gap-2">
+                @for (category of movie()?.category; track category.name) {
+                  <span class="badge">{{ category.name }}</span>
+                }
+              </div>
             </div>
           </div>
-        </div>
-      }
-    </a>
+        }
+      </a>
+    }
     <div
       class="pointer-events-none absolute top-0 right-0 w-full inset-0 transition-all duration-500"
     >
@@ -108,7 +110,6 @@
         class="h-full bg-[radial-gradient(100%_75%_at_50%_40%,transparent_0%,rgba(2,6,23,1)_180%)] lg:bg-[radial-gradient(100%_75%_at_50%_40%,transparent_0%,rgba(2,6,23,1)_80%)] text-slate-950"
       ></div>
     </div>
-
     <div
       class="hidden lg:flex gap-3 absolute right-5 xl:right-6 bottom-[15%] 2xl:bottom-[20%] z-20"
     >
@@ -133,16 +134,17 @@
       </h2>
 
       <div class="flex bg-black/40 rounded-lg overflow-hidden border border-white/10">
-        <button
-          *ngFor="let tab of tabs"
-          class="px-3 py-1 text-[7px] sm:text-xs transition-colors"
-          [class.bg-pink-600]="activeTab() === tab"
-          [class.text-white]="activeTab() === tab"
-          [class.text-gray-300]="activeTab() !== tab"
-          (click)="activeTab.set(tab)"
-        >
-          {{ tab }}
-        </button>
+        @for (tab of tabs; track tab) {
+          <button
+            class="px-3 py-1 text-[7px] sm:text-xs transition-colors"
+            [class.bg-pink-600]="activeTab() === tab"
+            [class.text-white]="activeTab() === tab"
+            [class.text-gray-300]="activeTab() !== tab"
+            (click)="activeTab.set(tab)"
+          >
+            {{ tab }}
+          </button>
+        }
       </div>
     </div>
 
@@ -153,13 +155,13 @@
             class="flex gap-3 p-2 rounded-lg bg-black/20 hover:bg-white/5 transition cursor-pointer group"
           >
             <img
-              [src]="film.thumb_url"
+              [src]="film.poster_url"
               alt="thumbnail"
-              class="w-10 lg:w-12 h-14 lg:h-16 object-cover rounded-md flex-shrink-0 shadow"
+              class="w-12 sm:w-16 xl:w-20 h-16 sm:h-24 xl:h-28 object-cover rounded-md flex-shrink-0 shadow"
             />
-            <div class="flex flex-col justify-center overflow-hidden">
+            <div class="flex flex-col justify-start overflow-hidden">
               <h3
-                class="text-[10px] sm:text-xs lg:text-sm font-semibold truncate group-hover:text-pink-400 transition-all duration-500 ease-in-out"
+                class="text-xs lg:text-sm font-semibold group-hover:text-pink-400 transition-all duration-500 ease-in-out line-clamp-2"
               >
                 {{ film.name }}
               </h3>
