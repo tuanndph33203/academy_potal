@@ -1,0 +1,81 @@
+<div class="text-white space-y-4">
+  <h2
+    class="lg:mb-5 text-sm sm:text-lg lg:text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient"
+  >
+    Phim Chiếu Rạp Mới Đang Hot
+  </h2>
+
+  <div class="grid grid-cols-8">
+    @if (isLoading()) {
+      @for (item of limit | numberToArray; track $index) {
+        <div class="p-2">
+          <app-skeleton pdWidth="100%" pdHeight="304px" />
+        </div>
+      }
+    } @else {
+      @for (item of movies(); track $index) {
+        <div class="p-2">
+          <a
+            class="block rounded-tl-xl rounded-tr-xl overflow-hidden shadow-md cursor-pointer"
+            [routerLink]="['/phim', item.slug]"
+          >
+            <div class="relative aspect-[2/3] overflow-hidden">
+              <img
+                [ngSrc]="item.poster_url | image: 'short'"
+                width="300"
+                height="450"
+                alt="banner"
+                class="w-full h-full object-cover"
+              />
+              <div
+                class="absolute top-0 sm:top-2 left-0 sm:left-2 flex gap-1 text-[8px] sm:text-xs font-semibold"
+              >
+                <span
+                  class="bg-green-600/90 px-[2px] sm:px-2 py-0 sm:py-0.5 rounded text-white border border-white/10 whitespace-nowrap"
+                  >{{ item.lang }}</span
+                >
+              </div>
+              <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full text-center">
+                <span
+                  class="text-sm bg-black/70 px-2 py-0.5 rounded text-white border border-white/10 whitespace-nowrap"
+                  >{{
+                    item.episode_current == 'Full' ? (item.time | timeToHour) : item.episode_current
+                  }}</span
+                >
+              </div>
+            </div>
+            <div class="p-3">
+              <div class="text-[10px] lg:text-xs font-semibold truncate">
+                {{ item.name }}
+              </div>
+            </div>
+          </a>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- ✅ Pagination -->
+  <div class="flex justify-center items-center gap-4 mt-8">
+    <button
+      class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded disabled:opacity-50 transition"
+      (click)="prevPage()"
+      [disabled]="page() <= 1"
+    >
+      ← Trang trước
+    </button>
+
+    <span class="text-sm md:text-base">
+      Trang {{ page() }} / {{ totalPages() }}
+      <span class="text-gray-400">(Tổng: {{ totalItems() }} phim)</span>
+    </span>
+
+    <button
+      class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded disabled:opacity-50 transition"
+      (click)="nextPage()"
+      [disabled]="page() >= totalPages()"
+    >
+      Trang sau →
+    </button>
+  </div>
+</div>

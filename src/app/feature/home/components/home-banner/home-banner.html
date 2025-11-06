@@ -154,6 +154,7 @@
         @for (film of data(); track film.name) {
           <a
             class="flex gap-3 p-2 rounded-lg bg-black/20 hover:bg-white/5 transition cursor-pointer group"
+            [routerLink]="`watch/${film.slug}`"
           >
             <img
               [src]="film.poster_url"

@@ -78,13 +78,11 @@ export class Watch implements OnInit {
   }
 
   ngOnInit() {
-    this.activateRouter.params.subscribe((params: any) => {
-      const { slug } = params;
-      this.filmService.getFilm(slug).subscribe((res) => {
-        this.movie.set(res.items);
-        console.log(this.movie());
-      });
-    });
+    if (this.activateRouter.snapshot.data['movie'].status) {
+      this.movie.set(this.activateRouter.snapshot.data['movie']);
+    } else {
+      this.router.navigate(['/404']);
+    }
   }
 
   setServer(server: string) {

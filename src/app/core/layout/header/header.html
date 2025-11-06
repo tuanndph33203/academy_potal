@@ -2,9 +2,9 @@
   class="fixed z-50 left-0 right-0 top-0 w-full m-auto max-w-screen-[1920px] transition-all text-white"
   [ngClass]="{ 'bg-neutral-950/70 backdrop-blur-md': scrolled() }"
 >
-  <div class="mx-auto max-w-[1800px] px-4 py-3 grid grid-cols-2 lg:grid-cols-3 gap-3">
+  <div class="mx-auto max-w-[1800px] px-4 py-3 grid grid-cols-2 lg:grid-cols-[1fr_2fr_200px] gap-3">
     <div class="flex items-center">
-      <a class="flex items-center gap-2 font-semibold">
+      <a class="flex items-center gap-2 font-semibold" routerLink="/">
         <div
           class="relative w-10 h-10 rounded-full overflow-visible bg-gradient-love bg-[length:200%_auto] animate-gradient"
         >
@@ -29,18 +29,16 @@
       </div>
     </div>
 
-    <nav class="hidden w-full lg:grid grid-cols-5 gap-6 place-content-center text-sm opacity-90">
-      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium">Phim Lẻ</a>
-      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium">Phim Bộ</a>
-      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium"
-        >Thể loại</a
-      >
-      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium"
-        >Quốc gia</a
-      >
-      <a routerLink="" class="hover:text-white/90 whitespace-nowrap text-lg font-medium"
-        >Review Phim</a
-      >
+    <nav
+      class="hidden lg:flex gap-10 items-center justify-between text-sm opacity-90 overflow-hidden"
+    >
+      @for (type of filmType; track type.value) {
+        <a
+          [routerLink]="type.value"
+          class="hover:text-white/90 whitespace-nowrap text-md lg:text-lg font-medium"
+          >{{ type.label }}</a
+        >
+      }
     </nav>
 
     <div class="ml-auto flex items-center justify-end gap-3">
