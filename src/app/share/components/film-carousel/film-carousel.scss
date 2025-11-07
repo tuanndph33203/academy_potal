@@ -8,6 +8,12 @@
     display: none;
     content: '' !important;
   }
+  .slick-prev {
+    left: 10px;
+  }
+  .slick-next {
+    right: 10px;
+  }
   .slick-prev,
   .slick-next {
     background: rgba(255, 152, 0, 0.75);

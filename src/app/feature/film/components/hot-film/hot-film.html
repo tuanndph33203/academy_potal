@@ -1,0 +1,16 @@
+<div class="text-white space-y-4 py-10">
+  <h2
+    class="lg:mb-5 text-sm sm:text-lg lg:text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient"
+  >
+    {{ type() }} HOT Mới Cập Nhật
+  </h2>
+
+  <div class="overflow-hidden h-fit">
+    @if (hotMovies()) {}
+    <app-film-carousel
+      [data]="hotMovies()"
+      [slideConfig]="slideConfig()"
+      [styleClass]="'transition-all hover:border-4 border-red box-border duration-300 ease-in-out'"
+    />
+  </div>
+</div>

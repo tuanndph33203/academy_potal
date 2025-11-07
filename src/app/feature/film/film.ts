@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FilmService } from '../../core/services/film.service';
-import { TypeFilm } from '../../core/constants/film.constant';
+import { typePilmOptions } from '../../core/constants/film.constant';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ImagePipe } from '../../core/pipe/image-pipe';
@@ -8,6 +8,7 @@ import { TimeToHourPipe } from '../../core/pipe/time-to-hour-pipe';
 import { Skeleton } from '../../share/components/skeleton/skeleton';
 import { finalize } from 'rxjs';
 import { NumberToArrayPipe } from '../../core/pipe/number-to-array-pipe';
+import { HotFilm } from './components/hot-film/hot-film';
 
 @Component({
   selector: 'app-film',
@@ -19,18 +20,21 @@ import { NumberToArrayPipe } from '../../core/pipe/number-to-array-pipe';
     NumberToArrayPipe,
     Skeleton,
     NgOptimizedImage,
+    HotFilm,
   ],
   templateUrl: './film.html',
   styleUrl: './film.scss',
 })
 export class Film {
-  type: TypeFilm | null = null;
+  type = signal<any | undefined>(undefined);
+
   movies = signal<any[]>([]);
+  hotMovies = signal<any[]>([]);
   page = signal(1);
   totalPages = signal(1);
   totalItems = signal(0);
   isLoading = signal(true);
-  limit = 24;
+  limit = 32;
 
   private filmService = inject(FilmService);
   private activatedRoute = inject(ActivatedRoute);
@@ -38,12 +42,12 @@ export class Film {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
-      const typeParam = params['type'];
-
-      if (Object.values(TypeFilm).includes(typeParam as TypeFilm)) {
-        this.type = typeParam as TypeFilm;
+      const typeParam = typePilmOptions.find((item) => item.value === params['type']);
+      if (typeParam) {
+        this.type.set(typeParam);
         this.page.set(1);
         this.loadFilms();
+        this.loadHotFilms();
       } else {
         this.router.navigate(['/404']);
       }
@@ -56,7 +60,7 @@ export class Film {
     this.isLoading.set(true);
 
     this.filmService
-      .getFilms(this.type, { limit: this.limit, page: this.page() })
+      .getFilms(this.type()?.value, { limit: this.limit, page: this.page() })
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe((res) => {
         const data = res.items.data;
@@ -65,7 +69,13 @@ export class Film {
         this.totalItems.set(data.params.pagination.totalItems);
       });
   }
-
+  loadHotFilms() {
+    if (!this.type) return;
+    this.filmService.getFilms(this.type()?.value, { limit: 10 }).subscribe((res) => {
+      const data = res.items.data;
+      this.hotMovies.set(data.items);
+    });
+  }
   nextPage() {
     if (this.page() < this.totalPages()) {
       this.page.update((p) => p + 1);
