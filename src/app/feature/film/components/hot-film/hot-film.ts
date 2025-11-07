@@ -13,8 +13,10 @@ export class HotFilm {
   hotMovies = input<any | undefined>(undefined);
   type = input.required<any>();
   slideConfig = signal<Slick.Config>({
-    slidesToShow: 8,
+    slidesToShow: 7,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
     responsive: [
       { breakpoint: 1536, settings: { slidesToShow: 6 } },
       { breakpoint: 1280, settings: { slidesToShow: 4 } },

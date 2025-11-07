@@ -1,6 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { FilmService } from '../../core/services/film.service';
-import { typePilmOptions } from '../../core/constants/film.constant';
+import {
+  FilterConfig,
+  FilterKey,
+  FilterKeyLabel,
+  typePilmOptions,
+} from '../../core/constants/film.constant';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ImagePipe } from '../../core/pipe/image-pipe';
@@ -9,6 +14,7 @@ import { Skeleton } from '../../share/components/skeleton/skeleton';
 import { finalize } from 'rxjs';
 import { NumberToArrayPipe } from '../../core/pipe/number-to-array-pipe';
 import { HotFilm } from './components/hot-film/hot-film';
+import { Funnel, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-film',
@@ -21,11 +27,13 @@ import { HotFilm } from './components/hot-film/hot-film';
     Skeleton,
     NgOptimizedImage,
     HotFilm,
+    LucideAngularModule,
   ],
   templateUrl: './film.html',
   styleUrl: './film.scss',
 })
 export class Film {
+  icons = { Funnel };
   type = signal<any | undefined>(undefined);
 
   movies = signal<any[]>([]);
@@ -34,8 +42,20 @@ export class Film {
   totalPages = signal(1);
   totalItems = signal(0);
   isLoading = signal(true);
+  openFilter = signal(false);
+  selected = signal<Record<string, string>>({
+    country: 'Tất cả',
+    type: 'Tất cả',
+    rating: 'Tất cả',
+    genre: 'Tất cả',
+    version: 'Tất cả',
+    year: 'Tất cả',
+    sort: 'Mới nhất',
+  });
+
   limit = 32;
 
+  filters = FilterConfig;
   private filmService = inject(FilmService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
@@ -90,5 +110,17 @@ export class Film {
       this.loadFilms();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+
+  select(category: string | null, value: string) {
+    this.selected.update((prev) => ({ ...prev, [category ?? '']: value }));
+  }
+
+  applyFilters() {
+    console.log('Applied filters:', this.selected());
+  }
+
+  formatLabel(key: string): string {
+    return FilterKeyLabel[key];
   }
 }

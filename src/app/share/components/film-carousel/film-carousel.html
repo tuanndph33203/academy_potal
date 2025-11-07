@@ -2,11 +2,10 @@
   <ngx-slick-carousel #slickModal="slick-carousel" class="slider" [config]="slideConfigOrigin()">
     @if (data().length > 0) {
       @for (item of data(); track $index) {
-        <div ngxSlickItem class="p-2">
+        <div ngxSlickItem class="p-2" [ngClass]="styleClass()">
           <a
             class="block rounded-tl-xl rounded-tr-xl overflow-hidden shadow-md cursor-pointer"
             [routerLink]="`phim/${item.slug}`"
-            [ngClass]="styleClass()"
           >
             <div class="relative aspect-[2/3] overflow-hidden">
               <img
@@ -15,12 +14,14 @@
                 alt="banner"
               />
               <div
-                class="absolute top-0 sm:top-2 left-0 sm:left-2 flex gap-1 text-[8px] sm:text-xs font-semibold"
+                class="absolute top-0 sm:top-2 left-0 sm:left-2 flex flex-wrap gap-1 text-[8px] font-semibold"
               >
-                <span
-                  class="bg-green-600/90 px-[2px] sm:px-2 py-0 sm:py-0.5 rounded text-white border border-white/10 whitespace-nowrap"
-                  >{{ item.lang }}</span
-                >
+                @for (lang of getLang(item.lang); track lang) {
+                  <span
+                    class="bg-green-600/90 px-[0.5px] sm:px-1 py-0 sm:py-0.5 rounded text-white border border-white/10 whitespace-nowrap"
+                    >{{ lang }}</span
+                  >
+                }
               </div>
               <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full text-center">
                 <span
@@ -32,7 +33,9 @@
               </div>
             </div>
             <div class="p-3">
-              <div class="text-[10px] lg:text-xs font-semibold truncate">
+              <div
+                class="text-[10px] lg:text-xs font-semibold truncate bg-clip-text text-transparent bg-gradient-minimal bg-[length:200%_auto] animate-gradient"
+              >
                 {{ item.name }}
               </div>
             </div>

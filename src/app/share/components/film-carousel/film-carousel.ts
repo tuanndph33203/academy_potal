@@ -67,4 +67,11 @@ export class FilmCarousel implements OnInit {
       }));
     }
   }
+
+  getLang(lang: string): string[] {
+    const multyLang = lang.split('+');
+    console.log(multyLang);
+
+    return multyLang;
+  }
 }

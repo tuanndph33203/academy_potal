@@ -1,28 +1,53 @@
-<app-hot-film [type]="type()?.label" [hotMovies]="hotMovies()" />
-<div class="text-white space-y-4 py-10">
+<div class="text-white space-y-4 py-10 border-b-2 border-b-gray-900">
   <div class="flex items-center justify-between">
     <h2
       class="lg:mb-5 text-sm sm:text-lg lg:text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-premium bg-[length:200%_auto] animate-gradient"
     >
       {{ type()?.label }} Mới Cập Nhật
     </h2>
-    <div class="flex items-center gap-5">
-      <button
-        class="bg-gray-800 hover:bg-gray-700 px-2 rounded disabled:opacity-50 transition"
-        (click)="prevPage()"
-        [disabled]="page() <= 1"
-      >
-        ←
-      </button>
-      <button
-        class="bg-gray-800 hover:bg-gray-700 px-2 rounded disabled:opacity-50 transition"
-        (click)="nextPage()"
-        [disabled]="page() >= totalPages()"
-      >
-        →
-      </button>
-    </div>
+    <button
+      class="px-2 py-1 flex items-center gap-2 bg-slate-800"
+      (click)="openFilter.set(!openFilter())"
+    >
+      Tìm kiếm
+      <lucide-angular [img]="icons.Funnel" size="20" class="cursor-pointer" />
+    </button>
   </div>
+  @if (openFilter()) {
+    <div class="bg-[#0c0d10] text-gray-200 p-4 rounded-xl space-y-3 border border-gray-800">
+      <div *ngFor="let key of filters | keyvalue" class="border-b border-gray-800 pb-2">
+        <p class="font-semibold capitalize mb-1 text-sm">{{ formatLabel(key.key) }}:</p>
+        <div class="flex flex-wrap gap-2">
+          <button
+            *ngFor="let item of key.value"
+            (click)="select(key.key, item)"
+            [ngClass]="{
+              'bg-amber-400 text-black': selected()[key.key] === item,
+            }"
+            class="px-3 py-1 text-xs rounded-full hover:bg-amber-400 hover:text-black transition"
+          >
+            {{ item }}
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center mt-4">
+        <button
+          class="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-2 py-1 rounded-lg transition text-sm"
+          (click)="applyFilters()"
+        >
+          Lọc kết quả
+        </button>
+        <button
+          class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
+          (click)="openFilter.set(!openFilter())"
+        >
+          Đóng
+        </button>
+      </div>
+    </div>
+  }
+
   <div class="grid grid-cols-8">
     @if (isLoading()) {
       @for (item of limit | numberToArray; track $index) {
@@ -97,3 +122,4 @@
     </button>
   </div>
 </div>
+<app-hot-film [type]="type()?.label" [hotMovies]="hotMovies()" />
